@@ -1,0 +1,70 @@
+# 1
+Quick metrics using expvar
+GopherCon India 2019, Goa
+
+Prashanth Pai
+Plivo (We're hiring Gophers!)
+
+
+: I work as SDE at Plivo.
+: Plivo has many microservices written in Go.
+
+
+# 2
+* Monitoring - Push vs Pull
+
+Push (statsd)
+
+- App sends metrics asynchronously to monitoring system.
+- App handles backlog, batching, retries, resource constraints.
+- Resource consumption determined by rate of metric production.
+- App has to know the whereabouts of monitoring system.
+
+Pull (prometheus, expvar)
+
+- App exposes metrics via HTTP endpoint which os polled by the monitoring system.
+- Resource consumption determined by amount of metrics and polling interval.
+- Can miss outliers.
+- Monitoring system has to know whereabouts of app instances.
+
+# 3
+* expvar
+
+- Part of Go standard library.
+- Metrics exposed in JSON format.
+- Can expose static variables, dynamic variables, counters etc.
+- Exposes *os.Args* and *runtime.Memstats* by default.
+- Default handler at */debug/vars* but is configurable.
+
+# 4
+* Using expvar
+
+- Use *expvar.New** family of functions. Metrics exported implicitly.
+- Use **.Add()* and **.Set()* to update or sert metric variables.
+- Or use your own type that implements *expvar.Var* interface and use *expvar.Publish()* or *(*Map).Set* to export.
+
+.play code/example.go  /START OMIT/,/END OMIT/
+
+
+# 5
+* Example: Requests counter middleware
+
+.play code/middleware.go /START OMIT/,/END OMIT/
+
+# 6
+* Example: Monitor number of goroutines
+
+Your own type can implement *expvar.Var* interface.
+
+.play code/goroutines.go /START OMIT/,/END OMIT/
+
+# 7
+* Example: Export static information
+
+.play code/static.go /START OMIT/,/END OMIT/
+
+# 8
+* See it in action
+
+.image images/action.png 800 _
+
