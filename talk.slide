@@ -1,31 +1,33 @@
 # 1
-Quick metrics using expvar
+expvar
 GopherCon India 2019, Goa
+18 Jan 2019
 
 Prashanth Pai
-Plivo (We're hiring Gophers!)
+Software Development Engineer, Plivo
+Psst...We're hiring!
 
+# 2q
+* Monitoring: Push
 
-: I work as SDE at Plivo.
-: Plivo has many microservices written in Go.
-
-
-# 2
-* Monitoring - Push vs Pull
-
-Push (statsd)
-
+- Example: statsd
 - App sends metrics asynchronously to monitoring system.
 - App handles backlog, batching, retries, resource constraints.
 - Resource consumption determined by rate of metric production.
 - App has to know the whereabouts of monitoring system.
 
-Pull (prometheus, expvar)
+.image images/pushing-cart.png _ 500
 
-- App exposes metrics via HTTP endpoint which os polled by the monitoring system.
+# 2b
+* Monitoring: Pull
+
+- Example: prometheus, expvar
+- App exposes metrics via HTTP endpoint which is polled by the monitoring system.
 - Resource consumption determined by amount of metrics and polling interval.
 - Can miss outliers.
 - Monitoring system has to know whereabouts of app instances.
+
+.image images/messenger-showing.png _ 400
 
 # 3
 * expvar
@@ -36,35 +38,48 @@ Pull (prometheus, expvar)
 - Exposes *os.Args* and *runtime.Memstats* by default.
 - Default handler at */debug/vars* but is configurable.
 
-# 4
+
+.image images/flying.png _ 500
+
+# 4a
 * Using expvar
 
 - Use *expvar.New** family of functions. Metrics exported implicitly.
 - Use **.Add()* and **.Set()* to update or sert metric variables.
 - Or use your own type that implements *expvar.Var* interface and use *expvar.Publish()* or *(*Map).Set* to export.
 
-.play code/example.go  /START OMIT/,/END OMIT/
+.code code/example.go  /START OMIT/,/END OMIT/
+
+# 4b
+* Atomic
+
+Expvar provides atomic counters that are goroutine safe.
+
+.code code/int.go
+
+P.S: *expvar.Map* uses *sync.Map* introduced in Go 1.9 (which is fast)
 
 
 # 5
 * Example: Requests counter middleware
 
-.play code/middleware.go /START OMIT/,/END OMIT/
+.code code/middleware.go /START OMIT/,/END OMIT/
 
 # 6
 * Example: Monitor number of goroutines
 
 Your own type can implement *expvar.Var* interface.
 
-.play code/goroutines.go /START OMIT/,/END OMIT/
+.code code/goroutines.go /START OMIT/,/END OMIT/
 
 # 7
 * Example: Export static information
 
-.play code/static.go /START OMIT/,/END OMIT/
+.code code/static.go /START OMIT/,/END OMIT/
 
 # 8
 * See it in action
 
-.image images/action.png 800 _
-
+.image images/screen.png
+# Like them gopher images ?
+# Thanks to: https://github.com/egonelbre/gophers
