@@ -78,5 +78,15 @@ Your own type can implement *expvar.Var* interface.
 * See it in action
 
 .image images/screen.png
+
+# 9
+
+* Thank you
+
+.image images/logo.png _ 300
+
+*PS*: Visit the Plivo booth and take up the Plivo Go quiz.
+*PPS*: Plivo is hiring!
+
 # Like them gopher images ?
 # Thanks to: https://github.com/egonelbre/gophers
