@@ -39,27 +39,23 @@ http://bit.ly/gci19_expvar
 - Exposes *os.Args* and *runtime.Memstats* by default.
 - Default handler at */debug/vars* but is configurable.
 
-
 .image images/flying.png _ 500
 
 # 4a
 * Using expvar
 
 - Use *expvar.New** family of functions. Metrics exported implicitly.
-- Use **.Add()* and **.Set()* to update or sert metric variables.
-- Or use your own type that implements *expvar.Var* interface and use *expvar.Publish()* or *(*Map).Set* to export.
+- Use **.Add()* and **.Set()* to update or set metric variables.
+- Or use your own type that implements *expvar.Var* interface and use *expvar.Publish()* or *(**Map).Set* to export.
 
 .code code/example.go  /START OMIT/,/END OMIT/
 
 # 4b
-* Atomic
+* Inside expvar
 
-Expvar provides atomic counters that are goroutine safe.
+Atomic counters that are goroutine safe.
 
 .code code/int.go
-
-P.S: *expvar.Map* uses *sync.Map* introduced in Go 1.9 (which is fast)
-
 
 # 5
 * Example: Requests counter middleware
